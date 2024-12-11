@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            // Initialize SpeechRecognition for speech-to-text
+            const recognition = new (window.SpeechRecognition ||
+                window.webkitSpeechRecognition)();
+            recognition.lang = "en-US";
+            recognition.continuous = true; // Continuously listen to speech
+            recognition.interimResults = true; // Show interim results while speaking
+
+            // Initialize MediaRecorder for video and audio recording
+            let mediaRecorder;
+            let videoChunks = [];
+            let audioChunks = [];
+
+            // Get user media (both video and audio)
+            navigator.mediaDevices
+                .getUserMedia({ video: true, audio: true })
+                .then((stream) => {
+                    // Create a video element to display the stream
+                    const videoElement = document.createElement("video");
+                    videoElement.srcObject = stream;
+                    videoElement.play();
+                    document.body.appendChild(videoElement); // Display video on the page
+
+                    // Initialize MediaRecorder with the stream
+                    mediaRecorder = new MediaRecorder(stream);
+
+                    mediaRecorder.ondataavailable = (event) => {
+                        // Store video and audio data in respective arrays
+                        if (event.data.size > 0) {
+                            if (event.data.type.startsWith("video")) {
+                                videoChunks.push(event.data);
+                            } else if (event.data.type.startsWith("audio")) {
+                                audioChunks.push(event.data);
+                            }
+                        }
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        // Create the video blob from the recorded video chunks
+                        const videoBlob = new Blob(videoChunks, {
+                            type: "video/webm",
+                        });
+                        const audioBlob = new Blob(audioChunks, {
+                            type: "audio/wav",
+                        });
+
+                        // Create URLs for video and audio
+                        const videoURL = URL.createObjectURL(videoBlob);
+                        const audioURL = URL.createObjectURL(audioBlob);
+
+                        // Create video and audio elements to play back the recordings
+                        const video = new Video();
+                        video.src = videoURL;
+                        video.controls = true;
+                        document.body.appendChild(video); // Display recorded video
+                        video.play();
+
+                        // Optionally, you can play back the audio using an audio element
+                        const audio = new Audio(audioURL);
+                        audio.play();
+                    };
+
+                    // Start recording the video and audio
+                    mediaRecorder.start();
+
+                    // Start the SpeechRecognition service
+                    recognition.start();
+
+                    // Handle the speech recognition results
+                    recognition.onresult = (event) => {
+                        const transcript = Array.from(event.results)
+                            .map((result) => result[0].transcript)
+                            .join("");
+                        console.log("Transcript: ", transcript); // Display the transcript
+                    };
+
+                    // Stop recording after a period (e.g., 10 seconds)
+                    setTimeout(() => {
+                        mediaRecorder.stop();
+                        recognition.stop();
+                    }, 10000); // Stop after 10 seconds
+                })
+                .catch((error) => {
+                    console.error("Error accessing media devices: ", error);
+                });
+        </script>
+    </body>
+</html>

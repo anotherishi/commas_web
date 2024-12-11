@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Parkinsans:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Parkinsans:wght@300..500&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap');
 
 @font-face {
@@ -12,6 +12,11 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+a:visited, a:link {
+    color: black;
+}
+
 html,
 body {
     min-height: 100vh;
@@ -30,7 +35,7 @@ a {
 
 #topbar {
     background: rgba(255, 255, 255, 0.57);
-    border-radius: 16px;
+    border-radius: 10px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(6.9px);
     -webkit-backdrop-filter: blur(6.9px);
@@ -43,27 +48,28 @@ a {
 }
 
 
-
+ 
 #logo-img {
-    width: 3rem;
+    width: 2rem;
     margin-right: 1rem;
 }
 
 #brandname {
-    font-size: 2rem;
+    font-size: 1rem;
 }
 
 .heading {
+    font-size: x-large;
     font-family: "Parkinsans", cursive;
     text-align: center;
-    margin: 3rem 0 4rem 0;
+    margin: 2rem 0 2rem 0;
 }
 
+
 .btn {
-    padding: 1rem 2rem;
+    padding: 0.5rem 1rem;
     background-color: transparent;
     font-weight: 700;
-    font-size: x-large;
     font-family: "Parkinsans", cursive;
     border-radius: 0.8rem;
     border: 1px solid grey;

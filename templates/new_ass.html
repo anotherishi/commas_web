@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="../static/css/new-ass.css" />
+        <link rel="shortcut icon" href="data:" type="image/x-icon" />
+        <title>Dashboard</title>
+    </head>
+    <body>
+        <div id="topbar">
+            <a href="/dashboard">
+                <img
+                    id="logo-img"
+                    src="../static/images/logo.png"
+                    alt="commas logo"
+            /></a>
+            <h1 id="brandname">New Assessment</h1>
+        </div>
+
+        <div id="area">
+            <fieldset id="ques-area">
+                <legend>Question</legend>
+                <select name="question" id="question">
+                    <option value="intro">Tell us about yourself?</option>
+                    <option value="remote">
+                        What's your view on remote work culture?
+                    </option>
+                    <option value="trend">
+                        How do you stay updated with industry trends?
+                    </option>
+                    <option value="career">
+                        What inspired you to choose your career path?
+                    </option>
+                </select>
+            </fieldset>
+            <fieldset id="recording-area">
+                <legend>Recording</legend>
+                <video id="video" autoplay muted></video>
+            </fieldset>
+            <fieldset id="transcript-area">
+                <legend>Transcript</legend>
+                <div id="transcript-text"></div>
+            </fieldset>
+            <div id="buttons">
+                <button class="btn btn2" id="start-btn">Start</button>
+                <button hidden class="btn btn2" id="stop-btn">Stop</button>
+                <button hidden class="btn btn2" id="reset-btn">Reset</button>
+                <button hidden class="btn btn2" id="submit-btn">Submit</button>
+            </div>
+        </div>
+
+        <script>
+            const startBtn = document.getElementById("start-btn");
+            const stopBtn = document.getElementById("stop-btn");
+            const submitBtn = document.getElementById("submit-btn");
+            const resetBtn = document.getElementById("reset-btn");
+            const transcriptionDiv = document.getElementById("transcript-text");
+
+            const videoElement = document.getElementById("video");
+
+            const questionSelect = document.getElementById("question");
+            const recordingArea = document.getElementById("recording-area");
+            const transcriptArea = document.getElementById("transcript-area");
+
+            let do_transcript = false;
+
+            let rec;
+            if (
+                "webkitSpeechRecognition" in window ||
+                "SpeechRecognition" in window
+            ) {
+                const recognition = new (window.SpeechRecognition ||
+                    window.webkitSpeechRecognition)();
+                recognition.lang = "en-IN";
+                recognition.continuous = true;
+                recognition.interimResults = false;
+
+                let recorder;
+
+                startBtn.onclick = () => {
+                    questionSelect.setAttribute("disabled", "true");
+                    recordingArea.style.opacity = transcriptArea.style.opacity =
+                        "1";
+
+                    navigator.mediaDevices
+                        .getUserMedia({
+                            video: true,
+                            audio: true,
+                        })
+                        .then((stream) => {
+                            videoElement.srcObject = stream;
+                            videoElement.captureStream =
+                                videoElement.captureStream ||
+                                videoElement.mozCaptureStream;
+
+                            recorder = new MediaRecorder(stream);
+                            let videoData = [];
+                            let audioData = [];
+                            recorder.ondataavailable = (event) => {
+                                videoData.push(event.data);
+                                if (event.data.size > 0)
+                                    if (event.data.type.startsWith("audio"))
+                                        audioData.push(event.data);
+                            };
+
+                            recorder.onstop = () => {
+                                stream
+                                    .getTracks()
+                                    .forEach((track) => track.stop());
+                                const videoBlob = new Blob(videoData, {
+                                    type: "video/webm",
+                                });
+                                const videoURL = URL.createObjectURL(videoBlob);
+                                const audioBlob = new Blob(audioData, {
+                                    type: "audio/wav",
+                                });
+                                videoElement.srcObject = null;
+                                videoElement.src = videoURL;
+                                videoElement.muted = false;
+                                videoElement.autoplay = false;
+                                videoElement.setAttribute("controls", "true");
+                            };
+                            recorder.start();
+                            recognition.start();
+                            recognition.onresult = (event) => {
+                                for (
+                                    let i = event.resultIndex;
+                                    i < event.results.length;
+                                    i++
+                                ) {
+                                    let result = event.results[i][0].transcript;
+                                    transcriptionDiv.innerText += result;
+                                }
+                            };
+                            stopBtn.removeAttribute("hidden");
+                            startBtn.setAttribute("hidden", "true");
+                            stopBtn.style.opacity = "1";
+                        });
+                };
+                stopBtn.onclick = () => {
+                    recorder.stop();
+                    recognition.stop();
+                    resetBtn.removeAttribute("hidden");
+                    submitBtn.removeAttribute("hidden");
+                    stopBtn.setAttribute("hidden", "true");
+                    resetBtn.style.opacity = submitBtn.style.opacity = "1";
+
+                    
+                };
+                resetBtn.onclick = () => {
+                    window.location.reload();
+                }
+                submitBtn.onclick = () => {
+                    
+                }
+            } else alert("transcription not supported");
+
+            function new_assessment() {}
+        </script>
+    </body>
+</html>

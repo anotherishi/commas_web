@@ -1,9 +1,9 @@
 #login-heading {
-    margin-top: 5rem;
+    margin-top: 2rem;
 }
 
 form {
-    margin: 1rem 2rem;
+    margin: 0 2rem;
     font-family: Parkinsans, sans-serif;
 }
 
@@ -15,7 +15,7 @@ fieldset {
 }
 
 legend {
-    margin: 0.5rem;
+    margin:  0.5rem;
     padding: 0 0.5rem;
 }
 
@@ -25,7 +25,7 @@ legend {
     border: none;
     text-decoration: none;
     outline: none;
-    padding: 0 1rem 1rem 1rem;
+    padding: 0 1rem 0.3rem 1rem;
     font-size: large;
 }
 
@@ -34,7 +34,18 @@ form > div {
 }
 
 #btn-submit {
-    margin-top: 2rem;
-    font-size: larger;
+    margin-top: 1rem;
+    font-size: large;
+    font-weight: 500;
     background-image: linear-gradient(to bottom right, #feefef, #f2f8ff);
+}
+
+form > div {
+    display: flex;
+    flex-direction: column;
+}
+
+form > div > a {
+    margin-top: 2rem;
+    font-size: small;
 }

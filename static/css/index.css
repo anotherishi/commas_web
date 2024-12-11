@@ -7,16 +7,16 @@
 }
 
 #content {
-    
-    margin: 2rem;
+    margin: 1rem;
     text-align: center;
 }
 
 
 
 #subheading {
+    font-size: large;
     font-family: Merienda, sans-serif;
-padding: 1.5rem 1rem 3rem 1rem;
+padding: 0.5rem 1rem 3rem 1rem;
 }
 
 #bg-img {
@@ -24,6 +24,13 @@ padding: 1.5rem 1rem 3rem 1rem;
 }
 
 
-#main-btn {
-    background-image: linear-gradient(to right bottom, #f3f8ff, #fff6fd);
+#links {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
 }
+
+.login {
+    width: 40%;
+    background-image: linear-gradient(to right bottom, #f7fbff, #fff8fd);
+} 

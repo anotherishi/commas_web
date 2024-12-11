@@ -14,7 +14,7 @@
 }
 html,
 body {
-    height: 100%;
+    min-height: 100vh;
     background-color: #f3fbfe;
     font-family: playwrite, cursive;
     background-image: linear-gradient(
@@ -35,10 +35,6 @@ body {
     background-size: cover;
 }
 
-body {
-    position: relative;
-}
-
 a {
     text-decoration: none;
     user-select: none;
@@ -49,6 +45,14 @@ a:link,
 a:visited {
     color: black;
 }
+
+.btn {
+    background-color: transparent;
+    border: none;
+    font-size: x-large;
+    text-decoration: none;
+}
+
 
 #topbar {
     background: rgba(255, 255, 255, 0.57);
@@ -65,11 +69,11 @@ a:visited {
 
 #topbar > a {
     height: 2rem;
-    margin-right: 1rem;
 }
 
 #logo-img {
     width: 2rem;
+    margin-right: 1rem;
 }
 
 #brandname {
@@ -78,76 +82,82 @@ a:visited {
     width: 100%;
 }
 
-#options {
+#close {
     font-family: playwrite;
     font-style: italic;
     font-size: large;
     padding: 0.2rem 1rem;
+    margin-right: 0;
 }
 
-#prev {
+#area {
+    margin: 1rem;
     font-family: Parkinsans;
+    height: 80%;
 }
 
-#prev-topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 2rem;
-    font-family: Parkinsans;
-    font-weight: 300;
+fieldset {
+    padding: 0 1rem;
+    margin: 1rem 0;
+    transition: opacity 0.5s ease-in;
 }
 
-#prev-topbar > span {
-    font-size: larger;
-    font-weight: 400;
+#recording-area, #transcript-area {
+    opacity: 0;
 }
 
-#new {
-    text-align: center;
-    font-size: x-large;
-    width: 2rem;
-    height: 2rem;
-    background-color: transparent;
-    border-radius: 50%;
-    background: #ffebeb;
-    border-width: 0;
+legend {
+    padding: 0 0.5rem;
 }
-
-
-.btn {
+ 
+#question {
+    padding: 1rem 1rem 1rem 0 ;
+    width: 100%;
+    height: 100%;
     background-color: transparent;
     border: none;
-    font-size: x-large;
-    text-decoration: none;
+    user-select: none;
+    outline: none;
+
 }
 
+#video {
+    width: 100%;
+}
 
-.card {
-    background: rgba(255, 255, 255, 0.307);
-    border-radius: 7px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid #ffffff86;
-    margin: 1rem;
-    padding: 1rem 1.5rem;
+#recording-area {
+    min-height: 40%;
+    padding: 1rem;
+}
+
+#transcript-area {
+    height: 30%
+}
+
+#transcript-text {
+    min-height: 20vh;
+    overflow-y: scroll;
+    height: 100%;
+}
+
+#buttons {
+    text-align: center;
     display: flex;
-    flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
+    transition: opacity 0.5s ease-in;
 }
 
-.new-text {
-    font-weight: 500;
-    font-size: larger;
-    margin-bottom: 1rem;
+#stop-btn, #submit-btn, #reset-btn {
+    opacity: 0;
 }
 
-#started {
-    font-size: large;
+.btn2 {
+    /* width: 40%; */
     border: 1px solid;
     border-radius: 7px;
-    padding: 0.6rem 1rem;
-    background-color: #fff2f2;
-    box-shadow: 2px 2px 0 0;
+    padding: 0.3rem 1rem;
+    box-shadow: 1px 1px 2px 0;
+    background-color: #f9f5ff;
+    font-size: medium;
 }

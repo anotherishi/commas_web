@@ -9,7 +9,7 @@
     </head>
     <body>
         <div id="topbar">
-            <a href="/">
+            <a href="/dashboard">
                 <img
                     id="logo-img"
                     src="../static/images/logo.png"
@@ -22,7 +22,7 @@
         <div id="prev">
             <div id="prev-topbar">
                 <span> All assessments</span>
-                <button id="new" class="btn">+</button>
+                <a id="new" class="btn" href="/new">+</a>
             </div>
             <div id="assess"></div>
         </div>
@@ -34,7 +34,7 @@
                 assessDiv.innerHTML = `<div class="card" id="get-started-card">
                     <span class="new-text">New here!</span>
                     <span class="new-subtext">Tap the button below or click on the + icon to get started</span>
-                    <button class="btn" id="started">Get started</button>
+                    <a class="btn" id="started"  href="/new">Get started</a>
                 </div>`;
             }
 
@@ -50,6 +50,11 @@
                     });
             }
             fetch_all_data();
+
+
+            function new_assessment() {
+
+            }
         </script>
     </body>
 </html>

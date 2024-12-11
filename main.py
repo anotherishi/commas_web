@@ -11,7 +11,6 @@ from flask import (
 )
 from datetime import timedelta
 
-# timedelta(w)
 
 from dbman import *
 
@@ -96,6 +95,16 @@ def get_data():
             return json.dumps({"status": "no"})
     else:
         return json.dumps({"status": "error"})
+
+@server.get('/new')
+def new_assessment():
+    cookie = request.cookies.get("session")
+    if session_id_exists(cookie):
+        return render_template('new_ass.html')
+    else:
+        return 'error'
+
+
 
 
 if __name__ == "__main__":

@@ -1,27 +1,31 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block head %}
 
-{% block head %}
-
-<link rel="stylesheet" href="../static/css/login.css">
+<link rel="stylesheet" href="../static/css/login.css" />
 <title>Login - commas</title>
 
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 
 <h1 class="heading" id="login-heading">Login to your Profile</h1>
 
 <form id="loginform" action="/login" method="post">
     <fieldset>
         <legend><label for="email">Email</label></legend>
-        <input class="text-input" type="email" name="email" id="input-email">
+        <input required class="text-input" type="email" name="email" id="input-email" />
     </fieldset>
     <fieldset>
         <legend><label for="password">Password</label></legend>
-        <input class="text-input" type="password" name="password" id="input-password">
+        <input required
+            class="text-input"
+            type="password"
+            name="password"
+            id="input-password"
+        />
     </fieldset>
 
-    <div><button type="submit" id="btn-submit" class="btn">Continue!</button></div>
+    <div>
+        <button type="submit" id="btn-submit" class="btn">Continue!</button>
+        <a href="/signup">(sign-up)</a>
+    </div>
 </form>
 
 <script>
@@ -31,7 +35,7 @@
         alert("Some error occured, please try again")
     {% endif %}
 
-    {% with messages = get_flashed_messages() %} 
+    {% with messages = get_flashed_messages() %}
         {% if messages %}
             alert('{{messages[0]}}')
         {% endif %}

@@ -16,10 +16,9 @@
                 "webkitSpeechRecognition" in window ||
                 "SpeechRecognition" in window
             ) {
-                const SpeechRecognition =
-                    window.SpeechRecognition || window.webkitSpeechRecognition;
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                 const recognition = new SpeechRecognition();
-                recognition.lang = "en-IN"; // Indian English
+                recognition.lang = "en-IN"; 
                 recognition.continuous = true;
 
                 recognition.onresult = (event) => {
