@@ -7,7 +7,7 @@ from flask import (
     flash,
     get_flashed_messages,
     session,
-    url_for,
+    url_for, send_file
 )
 from datetime import timedelta
 
@@ -84,7 +84,7 @@ def dashboard():
         return redirect(url_for("login"))
 
 
-@server.get("/get")
+@server.route("/get")
 def get_data():
     cookie = request.cookies.get("session")
     if session_id_exists(cookie):
@@ -96,16 +96,54 @@ def get_data():
     else:
         return json.dumps({"status": "error"})
 
-@server.get('/new')
+
+@server.route("/new")
 def new_assessment():
     cookie = request.cookies.get("session")
     if session_id_exists(cookie):
-        return render_template('new_ass.html')
+        return render_template("new_ass.html")
     else:
-        return 'error'
+        return "error"
 
 
+@server.route("/upload", methods=["POST"])
+def upload():
+    cookie = request.cookies.get("session")
+    if session_id_exists(cookie):
+        video_file = request.files["video"]
+        audio_file = request.files["audio"]
+        metadata = request.form.get("metadata")
+        n = handle_upload(cookie, video_file, audio_file, metadata)
+        return json.dumps({"status": "yes", "n": n})
+    else:
+        return json.dumps({"status": "no"})
 
+
+@server.route("/results")
+def results():
+    cookie = request.cookies.get("session")
+    if session_id_exists(cookie):
+        n = request.args.get("n")
+        # email = get_email_from_id(cookie)
+        video_src = f"/video/{cookie}/{n}"
+        return render_template("results.html", video_src=video_src)
+    else:
+        return "error occured"
+    
+@server.route("/video/<cookie>/<n>")
+def send_video(cookie, n):
+    stored_cookie = request.cookies.get("session")
+    if session_id_exists(stored_cookie) and stored_cookie == cookie:
+        video_path = path.join(get_data_dir_from_id(cookie), n, 'video.webm')
+        return send_file(video_path, mimetype='video/mp4', as_attachment=False, conditional=True)
+    else:
+        return "error", 404
+
+@server.route('/logout')
+def logout():
+    response = make_response(redirect(url_for('index')))
+    response.delete_cookie('session')
+    return response
 
 if __name__ == "__main__":
     server.run(debug=True, host="0.0.0.0")

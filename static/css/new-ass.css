@@ -53,7 +53,6 @@ a:visited {
     text-decoration: none;
 }
 
-
 #topbar {
     background: rgba(255, 255, 255, 0.57);
     border-radius: 16px;
@@ -102,27 +101,30 @@ fieldset {
     transition: opacity 0.5s ease-in;
 }
 
-#recording-area, #transcript-area {
+#recording-area,
+#transcript-area {
     opacity: 0;
 }
 
 legend {
     padding: 0 0.5rem;
 }
- 
+
 #question {
-    padding: 1rem 1rem 1rem 0 ;
+    padding: 1rem 1rem 1rem 0;
     width: 100%;
     height: 100%;
     background-color: transparent;
     border: none;
     user-select: none;
     outline: none;
-
 }
 
 #video {
-    width: 100%;
+    /* width: 100%; */
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
 }
 
 #recording-area {
@@ -131,7 +133,7 @@ legend {
 }
 
 #transcript-area {
-    height: 30%
+    height: 30%;
 }
 
 #transcript-text {
@@ -148,7 +150,9 @@ legend {
     transition: opacity 0.5s ease-in;
 }
 
-#stop-btn, #submit-btn, #reset-btn {
+#stop-btn,
+#submit-btn,
+#reset-btn {
     opacity: 0;
 }
 

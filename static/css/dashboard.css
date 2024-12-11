@@ -65,11 +65,11 @@ a:visited {
 
 #topbar > a {
     height: 2rem;
-    margin-right: 1rem;
 }
 
 #logo-img {
     width: 2rem;
+    margin-right: 1rem;
 }
 
 #brandname {
@@ -79,10 +79,9 @@ a:visited {
 }
 
 #options {
-    font-family: playwrite;
-    font-style: italic;
-    font-size: large;
-    padding: 0.2rem 1rem;
+    font-family: Parkinsans;
+    font-size: small;
+    padding: 0.5rem 0 0.5rem 1rem;
 }
 
 #prev {

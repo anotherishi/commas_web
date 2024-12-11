@@ -66,15 +66,48 @@ def init_login(data):
     update_id_file(ids)
     return uid_new
 
+def get_email_from_id(id):
+    ids = read_id_file()
+    return [k for k, v in ids.items() if v == id][0]
 
-def get_all_data(id):
+def get_data_dir_from_id(id):
     ids = read_id_file()
     [email] = [k for k, v in ids.items() if v == id]
     user_dir = get_user_dir(email)
-    data_dir = path.join(user_dir, 'assessment_data')
+    return path.join(user_dir, 'assessment_data')
+
+
+def get_all_data(id):
+    data_dir = get_data_dir_from_id(id)
     data = os.listdir(data_dir)
     if not len(data):
         return False
     else:
         return True
 
+
+def handle_upload(cookie, video_file, audio_file, metadata):
+    data_dir = get_data_dir_from_id(cookie)
+    n = str(len(os.listdir(data_dir)))
+    os.mkdir(path.join(data_dir, n))
+    video_filename = path.join(data_dir,n, video_file.filename)
+    audio_filename = path.join(data_dir,n, audio_file.filename)
+    video_file.save(video_filename)
+    audio_file.save(audio_filename)
+    metadata = json.loads(metadata)
+    metadata["n"] = n
+    browser_transcript = metadata.get('transcript')
+    with open(path.join(data_dir,n, "details"), 'w') as details_file:
+        json.dump(metadata, details_file)
+    with open(path.join(data_dir,n, "transcript"), 'w') as transcript_file:
+        transcript_file.write(browser_transcript)
+    
+    # now audio, video, transcript files are saved
+    # pass to model for processing
+    # save results
+
+    results = {}
+
+    with open(path.join(data_dir,n, "results"), 'w') as result_file:
+        json.dump(results, result_file)
+    return n

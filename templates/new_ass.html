@@ -76,7 +76,7 @@
                 recognition.continuous = true;
                 recognition.interimResults = false;
 
-                let recorder;
+                let recorder, videoBlob, audioBlob;
 
                 startBtn.onclick = () => {
                     questionSelect.setAttribute("disabled", "true");
@@ -108,11 +108,11 @@
                                 stream
                                     .getTracks()
                                     .forEach((track) => track.stop());
-                                const videoBlob = new Blob(videoData, {
+                                videoBlob = new Blob(videoData, {
                                     type: "video/webm",
                                 });
                                 const videoURL = URL.createObjectURL(videoBlob);
-                                const audioBlob = new Blob(audioData, {
+                                audioBlob = new Blob(audioData, {
                                     type: "audio/wav",
                                 });
                                 videoElement.srcObject = null;
@@ -145,18 +145,36 @@
                     submitBtn.removeAttribute("hidden");
                     stopBtn.setAttribute("hidden", "true");
                     resetBtn.style.opacity = submitBtn.style.opacity = "1";
-
-                    
                 };
                 resetBtn.onclick = () => {
                     window.location.reload();
-                }
+                };
                 submitBtn.onclick = () => {
-                    
-                }
-            } else alert("transcription not supported");
+                    const metadata = {
+                        question: questionSelect.selectedOptions[0].innerText,
+                        transcript: transcriptionDiv.innerText,
+                        time: new Date().toLocaleString(),
+                    };
+                    const formData = new FormData();
+                    formData.append("video", videoBlob, "video.webm");
+                    formData.append("audio", audioBlob, "audio.wav");
+                    formData.append("metadata", JSON.stringify(metadata));
 
-            function new_assessment() {}
+                    fetch("/upload", {
+                        method: "POST",
+                        body: formData,
+                        credentials: "include",
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if (data.status == "yes") {
+                                window.location.replace("/results?n=" + data.n);
+                            } else {
+                                alert("something went wrong, please try again");
+                            }
+                        });
+                };
+            } else alert("transcription not supported");
         </script>
     </body>
 </html>
