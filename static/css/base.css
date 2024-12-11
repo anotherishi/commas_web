@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Parkinsans:wght@500&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap');
+
+@font-face {
+    font-family: playwrite;
+    src: url(../fonts/PlayWriteIN-Variable.woff2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html,
+body {
+    min-height: 100vh;
+    background-color: #f3fbfe;
+    font-family: playwrite, cursive;
+    /* background-image: linear-gradient(to top right, #d5d9ff, #c4e2ff, #b2eaff, #a6f2ff, #a3f9fa, #abfcf0, #b6fee6, #c4ffdc, #d0ffd8, #dcffd5, #e7ffd3, #f2ffd3); */
+    /* background-image: linear-gradient(to right top, #feffed, #f8ffea, #f0ffe9, #e8ffe8, #deffea, #d8ffec, #d3ffef, #cdfff2, #cafff4, #c6fff6, #c3fff9, #c0fffb); */
+    background-image: linear-gradient(to right top, #fefff2, #f9fff0, #f4ffef, #eeffef, #e7fff0, #e4fff2, #e1fff4, #defff6, #defff8, #dffffa, #dffffb, #e0fffd);
+    background-size: cover;
+}
+
+a {
+    text-decoration: none;
+    user-select: none;
+}
+
+#topbar {
+    background: rgba(255, 255, 255, 0.57);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6.9px);
+    -webkit-backdrop-filter: blur(6.9px);
+    border: 1px solid #ffffff86;
+
+    margin: 1rem;
+    padding: 0.5rem 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+
+
+#logo-img {
+    width: 3rem;
+    margin-right: 1rem;
+}
+
+#brandname {
+    font-size: 2rem;
+}
+
+.heading {
+    font-family: "Parkinsans", cursive;
+    text-align: center;
+    margin: 3rem 0 4rem 0;
+}
+
+.btn {
+    padding: 1rem 2rem;
+    background-color: transparent;
+    font-weight: 700;
+    font-size: x-large;
+    font-family: "Parkinsans", cursive;
+    border-radius: 0.8rem;
+    border: 1px solid grey;
+    text-decoration: none;
+}

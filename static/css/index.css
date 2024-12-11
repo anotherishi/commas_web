@@ -1,0 +1,29 @@
+
+#highlight {
+    text-decoration: underline;
+    font-weight: bold;
+    text-decoration-line:underline;
+    text-decoration-style: wavy;
+}
+
+#content {
+    
+    margin: 2rem;
+    text-align: center;
+}
+
+
+
+#subheading {
+    font-family: Merienda, sans-serif;
+padding: 1.5rem 1rem 3rem 1rem;
+}
+
+#bg-img {
+    width: 100%;
+}
+
+
+#main-btn {
+    background-image: linear-gradient(to right bottom, #f3f8ff, #fff6fd);
+}

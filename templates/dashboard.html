@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="../static/css/dashboard.css" />
+        <link rel="shortcut icon" href="data:" type="image/x-icon" />
+        <title>Dashboard</title>
+    </head>
+    <body>
+        <div id="topbar">
+            <a href="/">
+                <img
+                    id="logo-img"
+                    src="../static/images/logo.png"
+                    alt="commas logo"
+            /></a>
+            <h1 id="brandname">dashboard</h1>
+            <button class="btn" id="options">=</button>
+        </div>
+
+        <div id="prev">
+            <div id="prev-topbar">
+                <span> All assessments</span>
+                <button id="new" class="btn">+</button>
+            </div>
+            <div id="assess"></div>
+        </div>
+
+        <script>
+            const assessDiv = document.getElementById("assess");
+
+            function create_empty_card() {
+                assessDiv.innerHTML = `<div class="card" id="get-started-card">
+                    <span class="new-text">New here!</span>
+                    <span class="new-subtext">Tap the button below or click on the + icon to get started</span>
+                    <button class="btn" id="started">Get started</button>
+                </div>`;
+            }
+
+            function fetch_all_data() {
+                fetch("/get", { credentials: "include" })
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((data) => {
+                        if (data.status == "no") {
+                            create_empty_card();
+                        }
+                    });
+            }
+            fetch_all_data();
+        </script>
+    </body>
+</html>

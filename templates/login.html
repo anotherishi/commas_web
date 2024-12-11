@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<link rel="stylesheet" href="../static/css/login.css">
+<title>Login - commas</title>
+
+{% endblock %}
+
+{% block content %}
+
+<h1 class="heading" id="login-heading">Login to your Profile</h1>
+
+<form id="loginform" action="/login" method="post">
+    <fieldset>
+        <legend><label for="email">Email</label></legend>
+        <input class="text-input" type="email" name="email" id="input-email">
+    </fieldset>
+    <fieldset>
+        <legend><label for="password">Password</label></legend>
+        <input class="text-input" type="password" name="password" id="input-password">
+    </fieldset>
+
+    <div><button type="submit" id="btn-submit" class="btn">Continue!</button></div>
+</form>
+
+<script>
+    {% if error == "notexist" %}
+        alert("Please check the email")
+    {% elif error == "declined" %}
+        alert("Some error occured, please try again")
+    {% endif %}
+
+    {% with messages = get_flashed_messages() %} 
+        {% if messages %}
+            alert('{{messages[0]}}')
+        {% endif %}
+    {% endwith %}
+</script>
+
+{% endblock %}

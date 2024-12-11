@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+<link rel="stylesheet" href="../static/css/login.css" />
+<link rel="stylesheet" href="../static/css/signup.css" />
+<title>Signup - commas</title>
+
+{% endblock %} 
+
+{% block content %}
+
+<h1 class="heading" id="login-heading">Signup</h1>
+
+<form id="signupform" action="/signup" method="post">
+    <fieldset>
+        <legend><label for="name">Full Name</label></legend>
+        <input class="text-input" type="text" name="name" id="input-name" />
+    </fieldset>
+    <fieldset id="gender-select">
+        <legend>Gender</legend>
+        <div>
+            <span
+                ><label for="male">Male</label>
+                <input type="radio" name="gender" value="male"/>
+            </span>
+            <span
+                ><label for="female">Female</label>
+                <input type="radio" name="gender" value="female"/>
+            </span>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend><label for="email">Email</label></legend>
+        <input class="text-input" type="email" name="email" id="input-email" />
+    </fieldset>
+    <fieldset>
+        <legend><label for="password">Password</label></legend>
+        <input
+            class="text-input"
+            type="password"
+            name="password"
+            id="input-password"
+        />
+    </fieldset>
+
+    <div>
+        <button type="submit" id="btn-submit" class="btn">Continue!</button>
+    </div>
+</form>
+
+<script>
+    {% if error == 'exists' %}
+    alert("This email is already registered; please try another")
+    {% endif %}
+</script>
+
+{% endblock %}

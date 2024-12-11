@@ -1,0 +1,40 @@
+#login-heading {
+    margin-top: 5rem;
+}
+
+form {
+    margin: 1rem 2rem;
+    font-family: Parkinsans, sans-serif;
+}
+
+fieldset {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+legend {
+    margin: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+.text-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    text-decoration: none;
+    outline: none;
+    padding: 0 1rem 1rem 1rem;
+    font-size: large;
+}
+
+form > div {
+    text-align: center;
+}
+
+#btn-submit {
+    margin-top: 2rem;
+    font-size: larger;
+    background-image: linear-gradient(to bottom right, #feefef, #f2f8ff);
+}

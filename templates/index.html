@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<link rel="stylesheet" href="../static/css/index.css">
+<title>commas</title>
+
+{% endblock %}
+
+{% block content %}
+
+<div id="desc">
+    <h1 class="heading">Your personal <b id="highlight">Communication Assessor</b></h1>
+    <h2 id="subheading">
+        Perfect your grammar, tone, and fluency and get real-time AI
+        feedback to improve your language skills.
+    </h2>
+    <div id="links">
+        {% if loggedin %}
+        <a href="/dashboard" class="btn" id="main-btn">Go to Dashboard</a>
+        {% else %}
+        <a href= "/signup" class="btn" id="main-btn">Join Now</a>
+        {% endif %}
+    </div>
+</div>
+
+<img
+    id="bg-img"
+    src="../static/images/image copy.png"
+    alt="background"
+/>
+
+{% endblock%}
