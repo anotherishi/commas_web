@@ -1,1 +1,10 @@
 flask
+git+https://github.com/openai/whisper.git
+numpy
+pydub
+praat-parselmouth
+librosa 
+transformers 
+mediapipe 
+opencv-python-headless
+TTS
