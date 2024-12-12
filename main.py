@@ -116,9 +116,8 @@ def upload():
     cookie = request.cookies.get("session")
     if session_id_exists(cookie):
         video_file = request.files["video"]
-        audio_file = request.files["audio"]
         metadata = request.form.get("metadata")
-        n = handle_upload(cookie, video_file, audio_file, metadata)
+        n = handle_upload(cookie, video_file, metadata)
         return json.dumps({"status": "yes", "n": n})
     else:
         return json.dumps({"status": "no"})
@@ -131,7 +130,7 @@ def results():
         n = request.args.get("n")
         details = get_details(cookie, n)
         video_src = f"/video/{cookie}/{n}"
-        return render_template("results.html", video_src=video_src, ques=details["question"], date=details["time"], transcript=details["transcript"], duration=details["duration"], speed=details["rate"], pauses=details["pauses"], filler=details["filler"], filler_count=details["filler_count"], errors=details["errors"], video_dt=details["video_dt"] )
+        return render_template("results.html", video_src=video_src, ques=details["question"], date=details["time"], transcript=details["transcript"], duration=details["duration"], speed=details["rate"], pauses=details["pauses"], filler=details["filler"], filler_count=details["filler_count"], errors=details["errors"], video_dt=details["video_dt"], pronun=details["pronun"], final=details["final"] )
     else:
         flash("Please login first", "info")
         return redirect(url_for("login"))

@@ -60,6 +60,7 @@
             const submitBtn = document.getElementById("submit-btn");
             const resetBtn = document.getElementById("reset-btn");
             const transcriptionDiv = document.getElementById("transcript-text");
+            const buttonsDiv = document.getElementById("buttons");
 
             const videoElement = document.getElementById("video");
 
@@ -69,9 +70,11 @@
 
             function showLoad() {
                 loadDiv.style.display = "flex";
+                buttonsDiv.style.display = "none";
             }
             function hideLoad() {
                 loadDiv.style.display = "none";
+                buttonsDiv.style.display = "flex";
             }
 
             let rec;
@@ -111,9 +114,6 @@
                             let audioData = [];
                             recorder.ondataavailable = (event) => {
                                 videoData.push(event.data);
-                                if (event.data.size > 0)
-                                    if (event.data.type.startsWith("audio"))
-                                        audioData.push(event.data);
                             };
 
                             recorder.onstop = () => {
@@ -124,9 +124,6 @@
                                     type: "video/webm",
                                 });
                                 const videoURL = URL.createObjectURL(videoBlob);
-                                audioBlob = new Blob(audioData, {
-                                    type: "audio/wav",
-                                });
                                 videoElement.srcObject = null;
                                 videoElement.src = videoURL;
                                 videoElement.muted = false;
@@ -166,11 +163,10 @@
                     const metadata = {
                         question: questionSelect.selectedOptions[0].innerText,
                         transcript: transcriptionDiv.innerText,
-                        time: new Date().toLocaleString(),
+                        time: new Date().toISOString(),
                     };
                     const formData = new FormData();
                     formData.append("video", videoBlob, "video.webm");
-                    formData.append("audio", audioBlob, "audio.wav");
                     formData.append("metadata", JSON.stringify(metadata));
 
                     fetch("/upload", {
@@ -186,6 +182,10 @@
                             } else {
                                 alert("something went wrong, please try again");
                             }
+                        })
+                        .catch(err=> {
+                            alert('error occured, reloading');
+                            window.reload();
                         });
                 };
             } else alert("transcription not supported");

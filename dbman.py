@@ -72,6 +72,14 @@ def get_email_from_id(id):
     ids = read_id_file()
     return [k for k, v in ids.items() if v == id][0]
 
+def get_user_details(id):
+    ids = read_id_file()
+    [email] = [k for k, v in ids.items() if v == id]
+    user_dir = get_user_dir(email)
+    with open(path.join(user_dir, 'details')) as details_file:
+        return json.load(details_file)
+
+
 def get_data_dir_from_id(id):
     ids = read_id_file()
     [email] = [k for k, v in ids.items() if v == id]
@@ -91,17 +99,20 @@ def get_all_data(id):
             data[i] = {}
             with open(path.join(data_dir, i, "details")) as details_file:
                 data[i]["details"] = json.loads(details_file.read())
-            with open(path.join(data_dir, i, "results")) as results_file:
-                data[i]["results"] = json.loads(results_file.read())
+            res_filename = path.join(data_dir, i, "results")
+            if (path.isfile(res_filename)):
+                with open(res_filename) as results_file:
+                    data[i]["results"] = json.loads(results_file.read())
         return data
 
 
-def handle_upload(cookie, video_file, audio_file, metadata):
+def handle_upload(cookie, video_file, metadata):
+    
     data_dir = get_data_dir_from_id(cookie)
     n = str(len(os.listdir(data_dir)))
     os.mkdir(path.join(data_dir, n))
     video_filename = path.join(data_dir,n, video_file.filename)
-    audio_filename = path.join(data_dir,n, audio_file.filename)
+    audio_filename = path.join(data_dir,n, "audio.wav")
     video_file.save(video_filename)
     subprocess.run(["ffmpeg", "-i", video_filename, "-vn", audio_filename])
     metadata = json.loads(metadata)
@@ -115,8 +126,11 @@ def handle_upload(cookie, video_file, audio_file, metadata):
     # pass to model for processing
     # save results
     results = dets(audio_filename, metadata["transcript"])
-    results["errors"] = check_errors(metadata["transcript"])
-    results["video_dt"] = process_video_optimized(video_filename)
+    results["errors"] = return_errors(metadata["transcript"])
+    results["video_dt"] = process_video(video_filename)
+    results["pronun"] = calculate_pronunciation_score(
+    comp_pronun(metadata["transcript"], audio_filename, path.join(data_dir,n, "synthesized_sudio.wav"), gender=get_user_details(cookie)["gender"]))
+    results["final"] = calculate_accuracy_score(results["pronun"]["net"], results["errors"]["n"], results["rate"], results["pauses"], len(results["filler_count"]))
 
     with open(path.join(data_dir,n, "results"), 'w') as result_file:
         json.dump(results, result_file)

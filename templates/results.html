@@ -6,7 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../static/css/results.css" />
     <link rel="shortcut icon" href="data:" type="image/x-icon" />
-    <title>Dashboard</title>
+    <title>Result</title>
+    <style>
+        #content {
+            position: relative;
+        }
+        #final {
+            position: absolute;
+            top: 0;
+            right: 5vw;
+            width: 25vw;
+            height: 25vw;
+            background-color: #ffff81;
+            clip-path: polygon(49% 25%, 80% 10%, 78% 45%, 100% 70%, 65% 72%, 50% 100%, 32% 75%, 0% 70%, 21% 44%, 20% 10%);
+            font-size: 4vw;
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        #final>div {
+            display: flex;
+            justify-content: center;
+            height: 50%;
+            width: 100%;
+            border-bottom: 2px solid;
+        }
+        #up {
+            padding-bottom: 0.2rem;
+            align-items: end;
+        }
+        #down{
+            
+            padding-top: 0.2rem;
+            align-items: start;
+        }
+    </style>
 </head>
 
 <body>
@@ -14,10 +49,15 @@
         <a href="/dashboard">
             <img id="logo-img" src="../static/images/logo.png" alt="commas logo" /></a>
         <h1 id="brandname">results</h1>
+        <a href="/dashboard" id="options">(back)</a>
     </div>
     <div id="content">
         <div id="ques">Q: {{ques}}</div>
         <div id="date">Taken on {{date}} </div>
+        <div id="final">
+            <div id="up">{{final}}</div>
+            <div id="down">100</div>
+        </div>
         <div id="duration">Duration: {{duration}} sec</div>
         <div id="video-div">
             <video src="{{video_src}}" controls></video>
@@ -36,25 +76,36 @@
                 {% else %}
                 <span>None</span>
                 {% endif %}
-
-
+            </div>
+            <div>
+                Pronounciation:
+                <div style="margin-left: 3rem;">Total Score: {{pronun["net"]}}%        Accuracy: {{pronun["variance"]}} </div>
+                <div style="margin-left: 3rem;">Word rate score: {{pronun["word"]}}       Pitch variance: {{pronun["pitch"]}}</div>
+            </div>
+            <div class="metric">
+                Results from video:
+                {% if video_dt.get("warning") %}
+                <div style="margin-left: 3rem;">Warning {{video_dt["warning"]}}</div>
+                {% endif %}
+                <div style="margin-left: 3rem;">Posture: {{video_dt["posture"]}}</div>
+                <div style="margin-left: 3rem;">Gestures: {{video_dt["gestures"]}}</div>
+                <div style="margin-left: 3rem;">Eye contact: {{video_dt["eye_contact"]}}</div>
             </div>
             <div class="metric">
                 <div>errors: </div>
-                {% if errors %}
-                {% for i in errors %}
-                <div style="margin-left: 3rem;">expected <b> {{errors[i][0]}}</b>, but got <b>{{errors[i][1]}}.</b>
-                </div>
+                {% if errors["data"] %}
+                {% for i in errors["data"] %}
+                <div style="margin-left: 3rem;">Error: {{ i.get("message") }}</div>
+                <div style="margin-left: 3rem;"> Corrections: {{ i.get("corrections") }}</div>
+                <div style="margin-left: 3rem;">Context: {{i.get("context")}}</div><br>
                 {% endfor %}
+                <div style="margin-left: 3rem;">Total errors (excluding proper nouns): {{ errors["n"] }}</div>
                 {% else %}
                 <span>None</span>
                 {% endif %}
             </div>
-            <div class="metric">
-                Results from video:
-                {{ video_dt }}
-            </div>
         </div>
+        <button class="btn" style="width: 40%; margin: 1rem 30% 3rem 30%; padding: 0.6rem; font-size:large;" onclick="print()">Download</button>
     </div>
 
 </body>
