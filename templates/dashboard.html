@@ -24,7 +24,9 @@
                 <span> All assessments</span>
                 <a id="new" class="btn" href="/new">+</a>
             </div>
-            <div id="assess"></div>
+            <div id="assess">
+                
+            </div>
         </div>
 
         <script>
@@ -37,6 +39,18 @@
                     <a class="btn" id="started"  href="/new">Get started</a>
                 </div>`;
             }
+            function create_normal_card(ques, date, time, n) {
+                assessDiv.innerHTML += `<div class="card ass-card">
+                    <div class="first-row">
+                        <div class="ques">Q: ${ques}</div>
+                        <div class="time">${date} <br /> ${time}</div>
+                    </div>
+                    <div class="second-row">
+                        <div class="score">Overall Score: 69</div>
+                        <a href="/results?n=${n}" class="more">more...</a>
+                    </div>
+                </div>`;
+            }
 
             function fetch_all_data() {
                 fetch("/get", { credentials: "include" })
@@ -46,15 +60,19 @@
                     .then((data) => {
                         if (data.status == "no") {
                             create_empty_card();
+                        } else if (data.status == "yes") {
+                            let ass_data = data.data;
+                            Object.keys(ass_data).reverse().forEach(i => {
+                                let ques = ass_data[i].details.question
+                                let full_date = new Date(ass_data[i].details.time)
+                                let date = `${full_date.getDay()}-${full_date.getMonth()}-${full_date.getFullYear().toString().slice(2)}`
+                                let time = `${full_date.getHours()}:${full_date.getMinutes().toString().padStart(2, '0')}`
+                                create_normal_card(ques, date, time, i)
+                            })
                         }
                     });
             }
             fetch_all_data();
-
-
-            function new_assessment() {
-
-            }
         </script>
     </body>
 </html>

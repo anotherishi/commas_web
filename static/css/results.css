@@ -1,0 +1,131 @@
+@import url("https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Parkinsans:wght@300..500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap");
+
+@font-face {
+    font-family: playwrite;
+    src: url(../fonts/PlayWriteIN-Variable.woff2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html,
+body {
+    height: 100%;
+    background-color: #f3fbfe;
+    font-family: playwrite, cursive;
+    background-image: linear-gradient(
+        to right top,
+        #fefff2,
+        #f9fff0,
+        #f4ffef,
+        #eeffef,
+        #e7fff0,
+        #e4fff2,
+        #e1fff4,
+        #defff6,
+        #defff8,
+        #dffffa,
+        #dffffb,
+        #e0fffd
+    );
+    background-size: cover;
+}
+
+body {
+    position: relative;
+}
+
+a {
+    text-decoration: none;
+    user-select: none;
+    color: black;
+}
+
+a:link,
+a:visited {
+    color: black;
+}
+
+#topbar {
+    background: rgba(255, 255, 255, 0.57);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6.9px);
+    -webkit-backdrop-filter: blur(6.9px);
+    border: 1px solid #ffffff86;
+    margin: 1rem;
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+#topbar > a {
+    height: 2rem;
+}
+
+#logo-img {
+    width: 2rem;
+    margin-right: 1rem;
+}
+
+#brandname {
+    font-size: 1rem;
+    color: black;
+    width: 100%;
+}
+
+#content {
+    font-family: Parkinsans;
+    margin: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#content > div {
+margin: 1rem 0;
+}
+
+video {
+    width: 400px;
+    height: 300px;
+    object-fit: cover;
+}
+
+@media only screen and (min-width: 768px) {
+    #logo-img {
+        width: 2.5rem;
+        margin-right: 1rem;
+    }
+    
+    #brandname {
+        font-size: 1.5rem;
+    }
+    body {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    #topbar {
+        width: 80vw;
+        margin-top: 2rem;
+    }
+    #content{
+        width: 80%;
+    }
+
+    #recording-area {
+        min-height: 30%;
+        padding: 1rem;
+    }
+
+    .btn2 {
+        padding: 0.5rem 1.2rem;
+        font-size: larger;
+    }
+
+}

@@ -79,11 +79,19 @@ def get_data_dir_from_id(id):
 
 def get_all_data(id):
     data_dir = get_data_dir_from_id(id)
-    data = os.listdir(data_dir)
-    if not len(data):
+    length = len(os.listdir(data_dir))
+    if not length:
         return False
     else:
-        return True
+        data = {}
+        for i in range(length):
+            i = str(i)
+            data[i] = {}
+            with open(path.join(data_dir, i, "details")) as details_file:
+                data[i]["details"] = json.loads(details_file.read())
+            with open(path.join(data_dir, i, "results")) as results_file:
+                data[i]["results"] = json.loads(results_file.read())
+        return data
 
 
 def handle_upload(cookie, video_file, audio_file, metadata):
@@ -111,3 +119,8 @@ def handle_upload(cookie, video_file, audio_file, metadata):
     with open(path.join(data_dir,n, "results"), 'w') as result_file:
         json.dump(results, result_file)
     return n
+
+def get_details(id, n):
+    data_dir = get_data_dir_from_id(id)
+    with open(path.join(data_dir, n, 'details')) as details_file:
+        return json.load(details_file)

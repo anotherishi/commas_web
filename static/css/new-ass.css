@@ -35,6 +35,24 @@ body {
     background-size: cover;
 }
 
+body {
+    padding-top: 1rem;
+}
+
+#load {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: #8c8c8ca9;
+    font-family: Parkinsans;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    display: none;
+}
+
+
 a {
     text-decoration: none;
     user-select: none;
@@ -60,7 +78,7 @@ a:visited {
     backdrop-filter: blur(6.9px);
     -webkit-backdrop-filter: blur(6.9px);
     border: 1px solid #ffffff86;
-    margin: 1rem;
+    margin: 0 1rem 1rem 1rem;
     padding: 0.8rem 1.5rem;
     display: flex;
     align-items: center;
@@ -128,18 +146,19 @@ legend {
 }
 
 #recording-area {
+    text-align: center;
     min-height: 40%;
     padding: 1rem;
 }
 
 #transcript-area {
-    height: 30%;
+    height: 0;
+    transition: height 0.5s ease-in;
 }
 
 #transcript-text {
-    min-height: 20vh;
     overflow-y: scroll;
-    height: 100%;
+    transition: height 0.5s ease-in;
 }
 
 #buttons {
@@ -164,4 +183,43 @@ legend {
     box-shadow: 1px 1px 2px 0;
     background-color: #f9f5ff;
     font-size: medium;
+}
+
+@media only screen and (min-width: 768px) {
+    #logo-img {
+        width: 2.5rem;
+        margin-right: 1rem;
+    }
+    
+    #brandname {
+        font-size: 1.5rem;
+    }
+    body {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    #topbar {
+        width: 80vw;
+        margin-top: 2rem;
+    }
+    #area{
+        width: 80%;
+    }
+
+    #recording-area {
+        min-height: 30%;
+        padding: 1rem;
+    }
+
+    .btn2 {
+        padding: 0.5rem 1.2rem;
+        font-size: larger;
+    }
+    #video {
+        width: 400px;
+        height: 300px;
+        object-fit: cover;
+    }
 }

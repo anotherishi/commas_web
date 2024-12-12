@@ -8,6 +8,9 @@
         <title>Dashboard</title>
     </head>
     <body>
+        <div id="load">
+            <h1>Loading...</h1>
+        </div>
         <div id="topbar">
             <a href="/dashboard">
                 <img
@@ -51,6 +54,7 @@
         </div>
 
         <script>
+            const loadDiv = document.getElementById("load");
             const startBtn = document.getElementById("start-btn");
             const stopBtn = document.getElementById("stop-btn");
             const submitBtn = document.getElementById("submit-btn");
@@ -63,7 +67,12 @@
             const recordingArea = document.getElementById("recording-area");
             const transcriptArea = document.getElementById("transcript-area");
 
-            let do_transcript = false;
+            function showLoad() {
+                loadDiv.style.display = "flex";
+            }
+            function hideLoad() {
+                loadDiv.style.display = "none";
+            }
 
             let rec;
             if (
@@ -80,12 +89,15 @@
 
                 startBtn.onclick = () => {
                     questionSelect.setAttribute("disabled", "true");
+                    transcriptArea.style.height = "20%";
+                    transcriptionDiv.style.height = "20vh";
                     recordingArea.style.opacity = transcriptArea.style.opacity =
                         "1";
 
                     navigator.mediaDevices
                         .getUserMedia({
-                            video: true,
+                            video: { facingMode: "user", width: { max: 640 },
+                            height: { max: 480 }, },
                             audio: true,
                         })
                         .then((stream) => {
@@ -150,6 +162,7 @@
                     window.location.reload();
                 };
                 submitBtn.onclick = () => {
+                    showLoad();
                     const metadata = {
                         question: questionSelect.selectedOptions[0].innerText,
                         transcript: transcriptionDiv.innerText,
@@ -167,6 +180,7 @@
                     })
                         .then((response) => response.json())
                         .then((data) => {
+                            hideLoad();
                             if (data.status == "yes") {
                                 window.location.replace("/results?n=" + data.n);
                             } else {

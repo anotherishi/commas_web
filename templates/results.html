@@ -1,13 +1,33 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="../static/css/results.css" />
+        <link rel="shortcut icon" href="data:" type="image/x-icon" />
+        <title>Dashboard</title>
+    </head>
+    <body>
+        <div id="topbar">
+            <a href="/dashboard">
+                <img
+                    id="logo-img"
+                    src="../static/images/logo.png"
+                    alt="commas logo"
+            /></a>
+            <h1 id="brandname">results</h1>
+        </div>
+        <div id="content">
+            <div id="ques">Q: {{ques}}</div>
+            <div id="date">Taken on {{date}} </div>
+            <div id="video-div">
+                <video src="{{video_src}}" controls></video>
+            </div>
+            <div id="transcript">Transcript: {{transcript or 'not available'}}</div>
+            <div id="scores">
+                scores:
+            </div>
+        </div>
 
-{% block head %}
-
-<title>Results - commas</title>
-
-{% endblock %}
-
-{% block content %}
-
-<video src="{{video_src}}" autoplay></video>
-
-{% endblock %}
+    </body>
+</html>

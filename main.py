@@ -17,6 +17,7 @@ from dbman import *
 
 server = Flask(__name__)
 server.secret_key = b'_5#y2L"\tnkldfkjsldnF4Q8z\n\xec]/'
+server.config['MAX_CONTENT_LENGTH'] = 100 * 1000 * 1000
 
 
 @server.route("/")
@@ -83,14 +84,14 @@ def dashboard():
         flash("Please login first before opening the dashboard", "info")
         return redirect(url_for("login"))
 
-
+ 
 @server.route("/get")
 def get_data():
     cookie = request.cookies.get("session")
     if session_id_exists(cookie):
         data = get_all_data(cookie)
         if data:
-            return json.dumps({"status": "yes"})
+            return json.dumps({"status": "yes", "data": data})
         else:
             return json.dumps({"status": "no"})
     else:
@@ -103,7 +104,8 @@ def new_assessment():
     if session_id_exists(cookie):
         return render_template("new_ass.html")
     else:
-        return "error"
+        flash("Please login first", "info")
+        return redirect(url_for("login"))
 
 
 @server.route("/upload", methods=["POST"])
@@ -124,11 +126,12 @@ def results():
     cookie = request.cookies.get("session")
     if session_id_exists(cookie):
         n = request.args.get("n")
-        # email = get_email_from_id(cookie)
+        details = get_details(cookie, n)
         video_src = f"/video/{cookie}/{n}"
-        return render_template("results.html", video_src=video_src)
+        return render_template("results.html", video_src=video_src, ques=details["question"], date=details["time"], transcript=details["transcript"] )
     else:
-        return "error occured"
+        flash("Please login first", "info")
+        return redirect(url_for("login"))
     
 @server.route("/video/<cookie>/<n>")
 def send_video(cookie, n):

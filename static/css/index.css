@@ -5,7 +5,7 @@
     text-decoration-line:underline;
     text-decoration-style: wavy;
 }
-
+ 
 #content {
     margin: 1rem;
     text-align: center;
@@ -34,3 +34,23 @@ padding: 0.5rem 1rem 3rem 1rem;
     width: 40%;
     background-image: linear-gradient(to right bottom, #f7fbff, #fff8fd);
 } 
+
+@media only screen and (min-width: 768px) {
+    #logo-img {
+        width: 2.5rem;
+        margin-right: 1rem;
+    }
+    
+    #brandname {
+        font-size: 1.5rem;
+    }
+    #content {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+    #bg-img {
+        max-width: 50%;
+    }
+}
