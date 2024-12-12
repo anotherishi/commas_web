@@ -7,4 +7,4 @@ librosa
 transformers 
 mediapipe 
 opencv-python-headless
-TTS
+waitress

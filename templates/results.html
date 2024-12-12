@@ -1,33 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="../static/css/results.css" />
-        <link rel="shortcut icon" href="data:" type="image/x-icon" />
-        <title>Dashboard</title>
-    </head>
-    <body>
-        <div id="topbar">
-            <a href="/dashboard">
-                <img
-                    id="logo-img"
-                    src="../static/images/logo.png"
-                    alt="commas logo"
-            /></a>
-            <h1 id="brandname">results</h1>
-        </div>
-        <div id="content">
-            <div id="ques">Q: {{ques}}</div>
-            <div id="date">Taken on {{date}} </div>
-            <div id="video-div">
-                <video src="{{video_src}}" controls></video>
-            </div>
-            <div id="transcript">Transcript: {{transcript or 'not available'}}</div>
-            <div id="scores">
-                scores:
-            </div>
-        </div>
 
-    </body>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/results.css" />
+    <link rel="shortcut icon" href="data:" type="image/x-icon" />
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <div id="topbar">
+        <a href="/dashboard">
+            <img id="logo-img" src="../static/images/logo.png" alt="commas logo" /></a>
+        <h1 id="brandname">results</h1>
+    </div>
+    <div id="content">
+        <div id="ques">Q: {{ques}}</div>
+        <div id="date">Taken on {{date}} </div>
+        <div id="duration">Duration: {{duration}} sec</div>
+        <div id="video-div">
+            <video src="{{video_src}}" controls></video>
+        </div>
+        <div id="transcript">Transcript: {{transcript or 'not available'}}</div>
+        <div id="scores">
+            <div class="metric">Speech rate: {{ speed }} words per sec.</div>
+            <div class="metric">number of pauses: {{pauses}}</div>
+            <div class="metric">
+                <div>No. of filler words:</div>
+
+                {% if filler_count %}
+                {% for i in filler_count %}
+                <div style="margin-left: 3rem;">{{i}}, {{filler_count[i]}} times</div>
+                {% endfor %}
+                {% else %}
+                <span>None</span>
+                {% endif %}
+
+
+            </div>
+            <div class="metric">
+                <div>errors: </div>
+                {% if errors %}
+                {% for i in errors %}
+                <div style="margin-left: 3rem;">expected <b> {{errors[i][0]}}</b>, but got <b>{{errors[i][1]}}.</b>
+                </div>
+                {% endfor %}
+                {% else %}
+                <span>None</span>
+                {% endif %}
+            </div>
+            <div class="metric">
+                Results from video:
+                {{ video_dt }}
+            </div>
+        </div>
+    </div>
+
+</body>
+
 </html>
+<!-- return render_template("results.html", video_src=video_src, ques=details["question"], 
+ date=details["time"], transcript=details["transcript"], duration=details["duration"], 
+ speed=details["rate"], pauses=details["pauses"], 
+ filler=details["filler"], filler_count=details["filler_count"], errors=details["errors"] ) -->

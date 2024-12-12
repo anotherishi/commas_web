@@ -14,6 +14,9 @@ from datetime import timedelta
 
 from dbman import *
 
+from plugin import *
+
+
 
 server = Flask(__name__)
 server.secret_key = b'_5#y2L"\tnkldfkjsldnF4Q8z\n\xec]/'
@@ -128,7 +131,7 @@ def results():
         n = request.args.get("n")
         details = get_details(cookie, n)
         video_src = f"/video/{cookie}/{n}"
-        return render_template("results.html", video_src=video_src, ques=details["question"], date=details["time"], transcript=details["transcript"] )
+        return render_template("results.html", video_src=video_src, ques=details["question"], date=details["time"], transcript=details["transcript"], duration=details["duration"], speed=details["rate"], pauses=details["pauses"], filler=details["filler"], filler_count=details["filler_count"], errors=details["errors"], video_dt=details["video_dt"] )
     else:
         flash("Please login first", "info")
         return redirect(url_for("login"))

@@ -1,7 +1,9 @@
 import json
 import os, os.path as path
 from uuid import uuid4
+import subprocess
 
+from plugin import *
 
 def uuid():
     return f"{uuid4()}{uuid4()}".replace("-", "")
@@ -101,20 +103,20 @@ def handle_upload(cookie, video_file, audio_file, metadata):
     video_filename = path.join(data_dir,n, video_file.filename)
     audio_filename = path.join(data_dir,n, audio_file.filename)
     video_file.save(video_filename)
-    audio_file.save(audio_filename)
+    subprocess.run(["ffmpeg", "-i", video_filename, "-vn", audio_filename])
     metadata = json.loads(metadata)
     metadata["n"] = n
-    browser_transcript = metadata.get('transcript')
+    metadata["transcript"] = corrected_ts(give_transcript(audio_filename))
+    
     with open(path.join(data_dir,n, "details"), 'w') as details_file:
         json.dump(metadata, details_file)
-    with open(path.join(data_dir,n, "transcript"), 'w') as transcript_file:
-        transcript_file.write(browser_transcript)
     
     # now audio, video, transcript files are saved
     # pass to model for processing
     # save results
-
-    results = {}
+    results = dets(audio_filename, metadata["transcript"])
+    results["errors"] = check_errors(metadata["transcript"])
+    results["video_dt"] = process_video_optimized(video_filename)
 
     with open(path.join(data_dir,n, "results"), 'w') as result_file:
         json.dump(results, result_file)
@@ -122,5 +124,9 @@ def handle_upload(cookie, video_file, audio_file, metadata):
 
 def get_details(id, n):
     data_dir = get_data_dir_from_id(id)
+    final_data = {}
     with open(path.join(data_dir, n, 'details')) as details_file:
-        return json.load(details_file)
+        final_data = json.load(details_file)
+    with open(path.join(data_dir, n, 'results')) as results_file:
+        final_data.update(json.load(results_file))
+    return final_data
