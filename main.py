@@ -17,7 +17,7 @@ from dbman import *
 
 server = Flask(__name__)
 server.secret_key = b'_5#y2L"\tnkldfkjsldnF4Q8z\n\xec]/'
-server.config['MAX_CONTENT_LENGTH'] = 100 * 1000 * 1000
+server.config['MAX_CONTENT_LENGTH'] = 50 * 1000 * 1000
 
 
 @server.route("/")
