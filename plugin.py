@@ -138,10 +138,10 @@ def process_video_optimized(video_path):
     scores = scorer.get_scores()
     fn = ""
     if scores["posture"] < 60 or scores["eye_contact"] < 70:
-        fn += "Warning: Poor posture or eye contact detected! <br>"
+        fn += "Warning: Poor posture or eye contact detected!        "
 
     #OUTPUTS THE FINAL SCORES
-    fn += f"""Final Scores: <br>           Posture: {scores['posture']:.2f} <br>            Gestures: {scores['gestures']:.2f} <br>            Eye Contact: {scores['eye_contact']:.2f}"""
+    fn += f"""Final Scores:          Posture: {scores['posture']:.2f}          Gestures: {scores['gestures']:.2f}          Eye Contact: {scores['eye_contact']:.2f}"""
     return fn
 
 
